@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -32,8 +33,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+subdir = src/ta_func
+DIST_COMMON = $(libta_func_HEADERS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -41,23 +43,62 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/include/ta_config.h
 CONFIG_CLEAN_FILES =
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)"
-libLTLIBRARIES_INSTALL = $(INSTALL)
-LTLIBRARIES = $(lib_LTLIBRARIES)
-libta_lib_la_DEPENDENCIES = ta_abstract/libta_abstract.la \
-	ta_func/libta_func.la ta_common/libta_common.la
-am_libta_lib_la_OBJECTS =
-libta_lib_la_OBJECTS = $(am_libta_lib_la_OBJECTS)
-libta_lib_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+libta_func_la_LIBADD =
+am_libta_func_la_OBJECTS = ta_utility.lo ta_ACOS.lo ta_AD.lo ta_ADD.lo \
+	ta_ADOSC.lo ta_ADX.lo ta_ADXR.lo ta_APO.lo ta_AROON.lo \
+	ta_AROONOSC.lo ta_ASIN.lo ta_ATAN.lo ta_ATR.lo ta_AVGPRICE.lo \
+	ta_BBANDS.lo ta_BETA.lo ta_BOP.lo ta_CCI.lo ta_CDL2CROWS.lo \
+	ta_CDL3BLACKCROWS.lo ta_CDL3INSIDE.lo ta_CDL3LINESTRIKE.lo \
+	ta_CDL3OUTSIDE.lo ta_CDL3STARSINSOUTH.lo \
+	ta_CDL3WHITESOLDIERS.lo ta_CDLABANDONEDBABY.lo \
+	ta_CDLADVANCEBLOCK.lo ta_CDLBELTHOLD.lo ta_CDLBREAKAWAY.lo \
+	ta_CDLCLOSINGMARUBOZU.lo ta_CDLCONCEALBABYSWALL.lo \
+	ta_CDLCOUNTERATTACK.lo ta_CDLDARKCLOUDCOVER.lo ta_CDLDOJI.lo \
+	ta_CDLDOJISTAR.lo ta_CDLDRAGONFLYDOJI.lo ta_CDLENGULFING.lo \
+	ta_CDLEVENINGDOJISTAR.lo ta_CDLEVENINGSTAR.lo \
+	ta_CDLGAPSIDESIDEWHITE.lo ta_CDLGRAVESTONEDOJI.lo \
+	ta_CDLHAMMER.lo ta_CDLHANGINGMAN.lo ta_CDLHARAMI.lo \
+	ta_CDLHARAMICROSS.lo ta_CDLHIGHWAVE.lo ta_CDLHIKKAKE.lo \
+	ta_CDLHIKKAKEMOD.lo ta_CDLHOMINGPIGEON.lo \
+	ta_CDLIDENTICAL3CROWS.lo ta_CDLINNECK.lo \
+	ta_CDLINVERTEDHAMMER.lo ta_CDLKICKING.lo \
+	ta_CDLKICKINGBYLENGTH.lo ta_CDLLADDERBOTTOM.lo \
+	ta_CDLLONGLEGGEDDOJI.lo ta_CDLLONGLINE.lo ta_CDLMARUBOZU.lo \
+	ta_CDLMATCHINGLOW.lo ta_CDLMATHOLD.lo ta_CDLMORNINGDOJISTAR.lo \
+	ta_CDLMORNINGSTAR.lo ta_CDLONNECK.lo ta_CDLPIERCING.lo \
+	ta_CDLRICKSHAWMAN.lo ta_CDLRISEFALL3METHODS.lo \
+	ta_CDLSEPARATINGLINES.lo ta_CDLSHOOTINGSTAR.lo \
+	ta_CDLSHORTLINE.lo ta_CDLSPINNINGTOP.lo \
+	ta_CDLSTALLEDPATTERN.lo ta_CDLSTICKSANDWICH.lo ta_CDLTAKURI.lo \
+	ta_CDLTASUKIGAP.lo ta_CDLTHRUSTING.lo ta_CDLTRISTAR.lo \
+	ta_CDLUNIQUE3RIVER.lo ta_CDLUPSIDEGAP2CROWS.lo \
+	ta_CDLXSIDEGAP3METHODS.lo ta_CEIL.lo ta_CMO.lo ta_CORREL.lo \
+	ta_COS.lo ta_COSH.lo ta_DEMA.lo ta_DIV.lo ta_DX.lo ta_EMA.lo \
+	ta_EXP.lo ta_FLOOR.lo ta_HT_DCPERIOD.lo ta_HT_DCPHASE.lo \
+	ta_HT_PHASOR.lo ta_HT_SINE.lo ta_HT_TRENDLINE.lo \
+	ta_HT_TRENDMODE.lo ta_KAMA.lo ta_LINEARREG.lo \
+	ta_LINEARREG_ANGLE.lo ta_LINEARREG_INTERCEPT.lo \
+	ta_LINEARREG_SLOPE.lo ta_LN.lo ta_LOG10.lo ta_MA.lo ta_MACD.lo \
+	ta_MACDEXT.lo ta_MACDFIX.lo ta_MAMA.lo ta_MAVP.lo ta_MAX.lo \
+	ta_MAXINDEX.lo ta_MEDPRICE.lo ta_MFI.lo ta_MIDPOINT.lo \
+	ta_MIDPRICE.lo ta_MIN.lo ta_MININDEX.lo ta_MINMAX.lo \
+	ta_MINMAXINDEX.lo ta_MINUS_DI.lo ta_MINUS_DM.lo ta_MOM.lo \
+	ta_MULT.lo ta_NATR.lo ta_OBV.lo ta_PLUS_DI.lo ta_PLUS_DM.lo \
+	ta_PPO.lo ta_ROC.lo ta_ROCP.lo ta_ROCR.lo ta_ROCR100.lo \
+	ta_RSI.lo ta_SAR.lo ta_SAREXT.lo ta_SIN.lo ta_SINH.lo \
+	ta_SMA.lo ta_SQRT.lo ta_STDDEV.lo ta_STOCH.lo ta_STOCHF.lo \
+	ta_STOCHRSI.lo ta_SUB.lo ta_SUM.lo ta_T3.lo ta_TAN.lo \
+	ta_TANH.lo ta_TEMA.lo ta_TRANGE.lo ta_TRIMA.lo ta_TRIX.lo \
+	ta_TSF.lo ta_TYPPRICE.lo ta_ULTOSC.lo ta_VAR.lo ta_WCLPRICE.lo \
+	ta_WILLR.lo ta_WMA.lo
+libta_func_la_OBJECTS = $(am_libta_func_la_OBJECTS)
+libta_func_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(libta_lib_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(libta_func_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I. -I$(top_builddir)/include@am__isrc@
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -67,20 +108,19 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libta_lib_la_SOURCES)
-DIST_SOURCES = $(libta_lib_la_SOURCES)
-RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
-	html-recursive info-recursive install-data-recursive \
-	install-dvi-recursive install-exec-recursive \
-	install-html-recursive install-info-recursive \
-	install-pdf-recursive install-ps-recursive install-recursive \
-	installcheck-recursive installdirs-recursive pdf-recursive \
-	ps-recursive uninstall-recursive
-RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
-  distclean-recursive maintainer-clean-recursive
+SOURCES = $(libta_func_la_SOURCES)
+DIST_SOURCES = $(libta_func_la_SOURCES)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+am__installdirs = "$(DESTDIR)$(libta_funcdir)"
+libta_funcHEADERS_INSTALL = $(INSTALL_HEADER)
+HEADERS = $(libta_func_HEADERS)
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -189,19 +229,178 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AUTOMAKE_OPTIONS = foreign 1.4
-SUBDIRS = ta_abstract ta_common ta_func
-lib_LTLIBRARIES = libta_lib.la
-libta_lib_la_SOURCES = 
-libta_lib_la_LIBADD = \
-  ta_abstract/libta_abstract.la \
-  ta_func/libta_func.la \
-  ta_common/libta_common.la
+noinst_LTLIBRARIES = libta_func.la
+AM_CPPFLAGS = -I../ta_common/
+libta_func_la_SOURCES = ta_utility.c \
+	ta_ACOS.c \
+	ta_AD.c \
+	ta_ADD.c \
+	ta_ADOSC.c \
+	ta_ADX.c \
+	ta_ADXR.c \
+	ta_APO.c \
+	ta_AROON.c \
+	ta_AROONOSC.c \
+	ta_ASIN.c \
+	ta_ATAN.c \
+	ta_ATR.c \
+	ta_AVGPRICE.c \
+	ta_BBANDS.c \
+	ta_BETA.c \
+	ta_BOP.c \
+	ta_CCI.c \
+	ta_CDL2CROWS.c \
+	ta_CDL3BLACKCROWS.c \
+	ta_CDL3INSIDE.c \
+	ta_CDL3LINESTRIKE.c \
+	ta_CDL3OUTSIDE.c \
+	ta_CDL3STARSINSOUTH.c \
+	ta_CDL3WHITESOLDIERS.c \
+	ta_CDLABANDONEDBABY.c \
+	ta_CDLADVANCEBLOCK.c \
+	ta_CDLBELTHOLD.c \
+	ta_CDLBREAKAWAY.c \
+	ta_CDLCLOSINGMARUBOZU.c \
+	ta_CDLCONCEALBABYSWALL.c \
+	ta_CDLCOUNTERATTACK.c \
+	ta_CDLDARKCLOUDCOVER.c \
+	ta_CDLDOJI.c \
+	ta_CDLDOJISTAR.c \
+	ta_CDLDRAGONFLYDOJI.c \
+	ta_CDLENGULFING.c \
+	ta_CDLEVENINGDOJISTAR.c \
+	ta_CDLEVENINGSTAR.c \
+	ta_CDLGAPSIDESIDEWHITE.c \
+	ta_CDLGRAVESTONEDOJI.c \
+	ta_CDLHAMMER.c \
+	ta_CDLHANGINGMAN.c \
+	ta_CDLHARAMI.c \
+	ta_CDLHARAMICROSS.c \
+	ta_CDLHIGHWAVE.c \
+	ta_CDLHIKKAKE.c \
+	ta_CDLHIKKAKEMOD.c \
+	ta_CDLHOMINGPIGEON.c \
+	ta_CDLIDENTICAL3CROWS.c \
+	ta_CDLINNECK.c \
+	ta_CDLINVERTEDHAMMER.c \
+	ta_CDLKICKING.c \
+	ta_CDLKICKINGBYLENGTH.c \
+	ta_CDLLADDERBOTTOM.c \
+	ta_CDLLONGLEGGEDDOJI.c \
+	ta_CDLLONGLINE.c \
+	ta_CDLMARUBOZU.c \
+	ta_CDLMATCHINGLOW.c \
+	ta_CDLMATHOLD.c \
+	ta_CDLMORNINGDOJISTAR.c \
+	ta_CDLMORNINGSTAR.c \
+	ta_CDLONNECK.c \
+	ta_CDLPIERCING.c \
+	ta_CDLRICKSHAWMAN.c \
+	ta_CDLRISEFALL3METHODS.c \
+	ta_CDLSEPARATINGLINES.c \
+	ta_CDLSHOOTINGSTAR.c \
+	ta_CDLSHORTLINE.c \
+	ta_CDLSPINNINGTOP.c \
+	ta_CDLSTALLEDPATTERN.c \
+	ta_CDLSTICKSANDWICH.c \
+	ta_CDLTAKURI.c \
+	ta_CDLTASUKIGAP.c \
+	ta_CDLTHRUSTING.c \
+	ta_CDLTRISTAR.c \
+	ta_CDLUNIQUE3RIVER.c \
+	ta_CDLUPSIDEGAP2CROWS.c \
+	ta_CDLXSIDEGAP3METHODS.c \
+	ta_CEIL.c \
+	ta_CMO.c \
+	ta_CORREL.c \
+	ta_COS.c \
+	ta_COSH.c \
+	ta_DEMA.c \
+	ta_DIV.c \
+	ta_DX.c \
+	ta_EMA.c \
+	ta_EXP.c \
+	ta_FLOOR.c \
+	ta_HT_DCPERIOD.c \
+	ta_HT_DCPHASE.c \
+	ta_HT_PHASOR.c \
+	ta_HT_SINE.c \
+	ta_HT_TRENDLINE.c \
+	ta_HT_TRENDMODE.c \
+	ta_KAMA.c \
+	ta_LINEARREG.c \
+	ta_LINEARREG_ANGLE.c \
+	ta_LINEARREG_INTERCEPT.c \
+	ta_LINEARREG_SLOPE.c \
+	ta_LN.c \
+	ta_LOG10.c \
+	ta_MA.c \
+	ta_MACD.c \
+	ta_MACDEXT.c \
+	ta_MACDFIX.c \
+	ta_MAMA.c \
+	ta_MAVP.c \
+	ta_MAX.c \
+	ta_MAXINDEX.c \
+	ta_MEDPRICE.c \
+	ta_MFI.c \
+	ta_MIDPOINT.c \
+	ta_MIDPRICE.c \
+	ta_MIN.c \
+	ta_MININDEX.c \
+	ta_MINMAX.c \
+	ta_MINMAXINDEX.c \
+	ta_MINUS_DI.c \
+	ta_MINUS_DM.c \
+	ta_MOM.c \
+	ta_MULT.c \
+	ta_NATR.c \
+	ta_OBV.c \
+	ta_PLUS_DI.c \
+	ta_PLUS_DM.c \
+	ta_PPO.c \
+	ta_ROC.c \
+	ta_ROCP.c \
+	ta_ROCR.c \
+	ta_ROCR100.c \
+	ta_RSI.c \
+	ta_SAR.c \
+	ta_SAREXT.c \
+	ta_SIN.c \
+	ta_SINH.c \
+	ta_SMA.c \
+	ta_SQRT.c \
+	ta_STDDEV.c \
+	ta_STOCH.c \
+	ta_STOCHF.c \
+	ta_STOCHRSI.c \
+	ta_SUB.c \
+	ta_SUM.c \
+	ta_T3.c \
+	ta_TAN.c \
+	ta_TANH.c \
+	ta_TEMA.c \
+	ta_TRANGE.c \
+	ta_TRIMA.c \
+	ta_TRIX.c \
+	ta_TSF.c \
+	ta_TYPPRICE.c \
+	ta_ULTOSC.c \
+	ta_VAR.c \
+	ta_WCLPRICE.c \
+	ta_WILLR.c \
+	ta_WMA.c
 
-libta_lib_la_LDFLAGS = -version-info $(TALIB_LIBRARY_VERSION)
-all: all-recursive
+libta_func_la_LDFLAGS = -version-info $(TALIB_LIBRARY_VERSION)
+libta_funcdir = $(includedir)/ta-lib/
+libta_func_HEADERS = ../../include/ta_defs.h \
+	../../include/ta_libc.h \
+	../../include/ta_func.h
+
+all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .c .lo .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -211,9 +410,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  src/ta_func/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Makefile
+	  $(AUTOMAKE) --gnu  src/ta_func/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -231,35 +430,17 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    f=$(am__strip_dir) \
-	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
-	    $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
-	  else :; fi; \
-	done
 
-uninstall-libLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  p=$(am__strip_dir) \
-	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$p'"; \
-	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$p"; \
-	done
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libta_lib.la: $(libta_lib_la_OBJECTS) $(libta_lib_la_DEPENDENCIES) 
-	$(libta_lib_la_LINK) -rpath $(libdir) $(libta_lib_la_OBJECTS) $(libta_lib_la_LIBADD) $(LIBS)
+libta_func.la: $(libta_func_la_OBJECTS) $(libta_func_la_DEPENDENCIES) 
+	$(libta_func_la_LINK)  $(libta_func_la_OBJECTS) $(libta_func_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -267,80 +448,208 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ACOS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_AD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ADD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ADOSC.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ADX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ADXR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_APO.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_AROON.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_AROONOSC.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ASIN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ATAN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ATR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_AVGPRICE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_BBANDS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_BETA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_BOP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CCI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL2CROWS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3BLACKCROWS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3INSIDE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3LINESTRIKE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3OUTSIDE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3STARSINSOUTH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDL3WHITESOLDIERS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLABANDONEDBABY.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLADVANCEBLOCK.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLBELTHOLD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLBREAKAWAY.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLCLOSINGMARUBOZU.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLCONCEALBABYSWALL.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLCOUNTERATTACK.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLDARKCLOUDCOVER.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLDOJI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLDOJISTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLDRAGONFLYDOJI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLENGULFING.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLEVENINGDOJISTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLEVENINGSTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLGAPSIDESIDEWHITE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLGRAVESTONEDOJI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHAMMER.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHANGINGMAN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHARAMI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHARAMICROSS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHIGHWAVE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHIKKAKE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHIKKAKEMOD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLHOMINGPIGEON.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLIDENTICAL3CROWS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLINNECK.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLINVERTEDHAMMER.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLKICKING.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLKICKINGBYLENGTH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLLADDERBOTTOM.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLLONGLEGGEDDOJI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLLONGLINE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLMARUBOZU.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLMATCHINGLOW.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLMATHOLD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLMORNINGDOJISTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLMORNINGSTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLONNECK.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLPIERCING.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLRICKSHAWMAN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLRISEFALL3METHODS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSEPARATINGLINES.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSHOOTINGSTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSHORTLINE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSPINNINGTOP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSTALLEDPATTERN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLSTICKSANDWICH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLTAKURI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLTASUKIGAP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLTHRUSTING.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLTRISTAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLUNIQUE3RIVER.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLUPSIDEGAP2CROWS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CDLXSIDEGAP3METHODS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CEIL.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CMO.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_CORREL.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_COS.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_COSH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_DEMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_DIV.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_DX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_EMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_EXP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_FLOOR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_DCPERIOD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_DCPHASE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_PHASOR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_SINE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_TRENDLINE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_HT_TRENDMODE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_KAMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LINEARREG.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LINEARREG_ANGLE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LINEARREG_INTERCEPT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LINEARREG_SLOPE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_LOG10.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MACD.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MACDEXT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MACDFIX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MAMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MAVP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MAX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MAXINDEX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MEDPRICE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MFI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MIDPOINT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MIDPRICE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MIN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MININDEX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MINMAX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MINMAXINDEX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MINUS_DI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MINUS_DM.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MOM.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_MULT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_NATR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_OBV.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_PLUS_DI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_PLUS_DM.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_PPO.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ROC.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ROCP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ROCR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ROCR100.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_RSI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SAREXT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SIN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SINH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SQRT.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_STDDEV.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_STOCH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_STOCHF.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_STOCHRSI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SUB.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_SUM.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_T3.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TAN.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TANH.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TEMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TRANGE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TRIMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TRIX.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TSF.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_TYPPRICE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_ULTOSC.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_VAR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_WCLPRICE.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_WILLR.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_WMA.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ta_utility.Plo@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
-
-# This directory's subdirectories are mostly independent; you can cd
-# into them and run `make' without going through this Makefile.
-# To change the values of `make' variables: instead of editing Makefiles,
-# (1) if the variable is set in `config.status', edit `config.status'
-#     (which will cause the Makefiles to be regenerated when you run `make');
-# (2) otherwise, pass the desired values on the `make' command line.
-$(RECURSIVE_TARGETS):
-	@failcom='exit 1'; \
-	for f in x $$MAKEFLAGS; do \
-	  case $$f in \
-	    *=* | --[!k]*);; \
-	    *k*) failcom='fail=yes';; \
-	  esac; \
-	done; \
-	dot_seen=no; \
-	target=`echo $@ | sed s/-recursive//`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    dot_seen=yes; \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	  || eval $$failcom; \
-	done; \
-	if test "$$dot_seen" = "no"; then \
-	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
-	fi; test -z "$$fail"
-
-$(RECURSIVE_CLEAN_TARGETS):
-	@failcom='exit 1'; \
-	for f in x $$MAKEFLAGS; do \
-	  case $$f in \
-	    *=* | --[!k]*);; \
-	    *k*) failcom='fail=yes';; \
-	  esac; \
-	done; \
-	dot_seen=no; \
-	case "$@" in \
-	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
-	  *) list='$(SUBDIRS)' ;; \
-	esac; \
-	rev=''; for subdir in $$list; do \
-	  if test "$$subdir" = "."; then :; else \
-	    rev="$$subdir $$rev"; \
-	  fi; \
-	done; \
-	rev="$$rev ."; \
-	target=`echo $@ | sed s/-recursive//`; \
-	for subdir in $$rev; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	  || eval $$failcom; \
-	done && test -z "$$fail"
-tags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+install-libta_funcHEADERS: $(libta_func_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(libta_funcdir)" || $(MKDIR_P) "$(DESTDIR)$(libta_funcdir)"
+	@list='$(libta_func_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(libta_funcHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(libta_funcdir)/$$f'"; \
+	  $(libta_funcHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(libta_funcdir)/$$f"; \
 	done
-ctags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) ctags); \
+
+uninstall-libta_funcHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libta_func_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(libta_funcdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(libta_funcdir)/$$f"; \
 	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -353,23 +662,10 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	mkid -fID $$unique
 tags: TAGS
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
-	  include_option=--etags-include; \
-	  empty_fix=.; \
-	else \
-	  include_option=--include; \
-	  empty_fix=; \
-	fi; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test ! -f $$subdir/TAGS || \
-	      tags="$$tags $$include_option=$$here/$$subdir/TAGS"; \
-	  fi; \
-	done; \
 	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
@@ -382,7 +678,7 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	    $$tags $$unique; \
 	fi
 ctags: CTAGS
-CTAGS: ctags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -430,40 +726,22 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test -d "$(distdir)/$$subdir" \
-	    || $(MKDIR_P) "$(distdir)/$$subdir" \
-	    || exit 1; \
-	    distdir=`$(am__cd) $(distdir) && pwd`; \
-	    top_distdir=`$(am__cd) $(top_distdir) && pwd`; \
-	    (cd $$subdir && \
-	      $(MAKE) $(AM_MAKEFLAGS) \
-	        top_distdir="$$top_distdir" \
-	        distdir="$$distdir/$$subdir" \
-		am__remove_distdir=: \
-		am__skip_length_check=: \
-	        distdir) \
-	      || exit 1; \
-	  fi; \
-	done
 check-am: all-am
-check: check-recursive
-all-am: Makefile $(LTLIBRARIES)
-installdirs: installdirs-recursive
-installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+check: check-am
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+installdirs:
+	for dir in "$(DESTDIR)$(libta_funcdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
-install-exec: install-exec-recursive
-install-data: install-data-recursive
-uninstall: uninstall-recursive
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-recursive
+installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  install_sh_PROGRAM="$(INSTALL_STRIP_PROGRAM)" INSTALL_STRIP_FLAG=-s \
@@ -479,81 +757,80 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-recursive
+clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
 	mostlyclean-am
 
-distclean: distclean-recursive
+distclean: distclean-am
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
 
-dvi: dvi-recursive
+dvi: dvi-am
 
 dvi-am:
 
-html: html-recursive
+html: html-am
 
-info: info-recursive
+info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-libta_funcHEADERS
 
-install-dvi: install-dvi-recursive
+install-dvi: install-dvi-am
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am:
 
-install-html: install-html-recursive
+install-html: install-html-am
 
-install-info: install-info-recursive
+install-info: install-info-am
 
 install-man:
 
-install-pdf: install-pdf-recursive
+install-pdf: install-pdf-am
 
-install-ps: install-ps-recursive
+install-ps: install-ps-am
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-recursive
+maintainer-clean: maintainer-clean-am
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-recursive
+mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-pdf: pdf-recursive
+pdf: pdf-am
 
 pdf-am:
 
-ps: ps-recursive
+ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libta_funcHEADERS
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
-	install-strip
+.MAKE: install-am install-strip
 
-.PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
-	all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool ctags ctags-recursive \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstLTLIBRARIES ctags distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libta_funcHEADERS install-man install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-libLTLIBRARIES
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-libta_funcHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
